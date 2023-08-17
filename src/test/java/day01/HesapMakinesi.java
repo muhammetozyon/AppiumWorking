@@ -39,7 +39,7 @@ public class HesapMakinesi {
 
         driver=new AndroidDriver<AndroidElement>(new URL("http://127.0.0.1:4723/wd/hub"),capabilities);
 
-        driver.manage().timeouts().implicitlyWait(20, TimeUnit.SECONDS);
+        driver.manage().timeouts().implicitlyWait(27, TimeUnit.SECONDS);
 
         // kullanici gerekli kurulumlari yapar
         // uygulamanin yuklendigini dogrular(isInstalled)
