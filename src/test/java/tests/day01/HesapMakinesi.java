@@ -1,4 +1,4 @@
-package day01;
+package tests.day01;
 
 import io.appium.java_client.AppiumDriver;
 import io.appium.java_client.MobileElement;
@@ -29,26 +29,33 @@ public class HesapMakinesi {
     @Test
     public void hesapMakinesi() throws MalformedURLException {
 
+        // kullanici gerekli kurulumlari yapar
         DesiredCapabilities capabilities=new DesiredCapabilities();
-
         capabilities.setCapability(MobileCapabilityType.DEVICE_NAME,"Pixel");
         capabilities.setCapability(MobileCapabilityType.PLATFORM_VERSION,"10.0");
         capabilities.setCapability(MobileCapabilityType.PLATFORM_NAME,"Android");
         capabilities.setCapability(MobileCapabilityType.AUTOMATION_NAME,"UiAutomator2");
-        capabilities.setCapability(MobileCapabilityType.APP,"C:\\Users\\Privat\\Desktop\\APPIUM_T-116\\Apps\\Calculator_8.4.1 (520193683)_Apkpure.apk");
+        capabilities.setCapability(MobileCapabilityType.APP,"C:\\Users\\ahmet\\IdeaProjects\\APPIUM_T-116\\Apps\\Calculator_8.4 (503542421)_Apkpure.apk");
 
         driver=new AndroidDriver<AndroidElement>(new URL("http://127.0.0.1:4723/wd/hub"),capabilities);
+        driver.manage().timeouts().implicitlyWait(20, TimeUnit.SECONDS);
 
-        driver.manage().timeouts().implicitlyWait(27, TimeUnit.SECONDS);
 
-        // kullanici gerekli kurulumlari yapar
+       /*
+        capabilities.setCapability("deviceName","Pixel");
+        capabilities.setCapability("platformVersion","10.0");
+        capabilities.setCapability("platformName","Android");
+        capabilities.setCapability("automationName","UiAutomator2");
+        */
+
+
         // uygulamanin yuklendigini dogrular(isInstalled)
-
-       Assert.assertTrue(driver.isAppInstalled("com.google.android.calculator"));
+        Assert.assertTrue(driver.isAppInstalled("com.google.android.calculator"));
         // uygulamanin acildigini dogrular
-       AndroidElement acButonu= driver.findElement(By.id("com.google.android.calculator:id/clr"));
-       Assert.assertTrue(acButonu.isDisplayed());
+        AndroidElement acButonu=driver.findElementById("com.google.android.calculator:id/clr");
+        Assert.assertTrue(acButonu.isDisplayed());
         // carpma,bolme,toplama,cikarma islemleri yaparak sonuclari dogrular
+        // 100 un 5 katininin 500 oldugunu hesap makinasindan dogrulayalim
 
         driver.findElementByAccessibilityId("1").click();
         driver.findElementByAccessibilityId("0").click();
@@ -57,16 +64,10 @@ public class HesapMakinesi {
         driver.findElementByAccessibilityId("5").click();
         driver.findElementByAccessibilityId("equals").click();
 
-        // AC butonuna tiklayarak ana ekrani temizler
+        String actualResult=driver.findElementById("com.google.android.calculator:id/result_final").getText();
+        int expectedResult=500;
 
-
-
-
-
-
-
-
-
+        Assert.assertEquals(Integer.parseInt(actualResult),expectedResult);
 
 
 
